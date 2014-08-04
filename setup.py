@@ -17,11 +17,13 @@ MAINTAINER_EMAIL    = 'stefan@sun.ac.za'
 URL                 = 'http://scikit-image.org'
 LICENSE             = 'Modified BSD'
 DOWNLOAD_URL        = 'http://github.com/scikit-image/scikit-image'
-VERSION             = '0.10.1'
+VERSION             = '0.11dev'
 PYTHON_VERSION      = (2, 5)
+
+# These are manually checked.
+# These packages are sometimes installed outside of the setuptools scope
 DEPENDENCIES        = {
                         'numpy': (1, 6),
-                        'six': (1, 3),
                       }
 
 # Only require Cython if we have a developer checkout
@@ -34,7 +36,6 @@ import os
 import sys
 import re
 import setuptools
-from numpy.distutils.core import setup
 from distutils.command.build_py import build_py
 
 
@@ -111,6 +112,7 @@ if __name__ == "__main__":
 
     write_version_py()
 
+    from numpy.distutils.core import setup
     setup(
         name=DISTNAME,
         description=DESCRIPTION,
@@ -139,7 +141,9 @@ if __name__ == "__main__":
         ],
 
         configuration=configuration,
-
+        install_requires=[
+            "six>=1.3"
+        ],
         packages=setuptools.find_packages(exclude=['doc']),
         include_package_data=True,
         zip_safe=False, # the package can run out of an .egg file
